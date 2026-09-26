@@ -1,0 +1,30 @@
+workflows:
+  android-debug-apk:
+    name: Radar Warning Android APK
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      flutter: stable
+    scripts:
+      - name: Get packages
+        script: flutter pub get
+      - name: Build Android APK
+        script: flutter build apk --debug
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+
+  ios-unsigned:
+    name: Radar Warning iPhone build
+    max_build_duration: 60
+    instance_type: mac_mini_m2
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Get packages
+        script: flutter pub get
+      - name: Build iOS
+        script: flutter build ios --release --no-codesign
+    artifacts:
+      - build/ios/iphoneos/**/*.app
